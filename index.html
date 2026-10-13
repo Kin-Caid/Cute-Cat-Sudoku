@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>Cute Cat Sudoku</title>
+  <meta name="theme-color" content="#f8f3ec">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Cat Sudoku">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="pill counter" id="counter" aria-live="polite">
+        <span class="counter-cat" id="counterCat"></span>
+        <span><b id="catsPlaced">0</b>/<span id="catsTotal">0</span></span>
+      </div>
+      <h1 id="levelTitle">Level 1</h1>
+      <button class="round-btn" id="settingsBtn" aria-label="Settings">
+        <svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+      </button>
+    </header>
+
+    <div class="difficulty">
+      <span class="label">Difficulty</span>
+      <div class="tabs" role="tablist" id="diffTabs">
+        <button role="tab" data-diff="normal">Normal</button>
+        <button role="tab" data-diff="hard">Hard</button>
+        <button role="tab" data-diff="ultra">Ultra</button>
+      </div>
+    </div>
+
+    <div class="hearts" id="hearts" aria-label="Hearts left"></div>
+
+    <main class="board-card">
+      <div class="board" id="board" role="grid" aria-label="Puzzle board"></div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </main>
+
+    <div class="mode" role="radiogroup" aria-label="Tap mode">
+      <button class="mode-btn active" id="modeCat" role="radio" aria-checked="true">
+        <span class="mode-icon" id="modeCatIcon"></span> Cat
+      </button>
+      <button class="mode-btn" id="modePaw" role="radio" aria-checked="false">
+        <span class="mode-icon paw-icon"></span> Paw
+      </button>
+    </div>
+
+    <nav class="toolbar">
+      <button class="tool" id="hintBtn"><span class="ti">💡</span><span>Hint</span></button>
+      <button class="tool" id="undoBtn"><span class="ti">↩️</span><span>Undo</span></button>
+      <button class="tool" id="restartBtn"><span class="ti">🔄</span><span>Restart</span></button>
+      <button class="tool" id="collectionBtn"><span class="ti">🐾</span><span>Cats</span></button>
+      <button class="tool" id="helpBtn"><span class="ti">❓</span><span>Help</span></button>
+    </nav>
+  </div>
+
+  <!-- Help -->
+  <dialog id="helpDialog" class="sheet">
+    <h2>How to play</h2>
+    <p class="lead">Place all the cats so every <b>row</b>, <b>column</b> and <b>color</b> has exactly one, and no cats touch.</p>
+    <div class="example" id="exampleBoard"></div>
+    <ol class="rules">
+      <li><span class="rule-tag">Rule 1</span><b>One cat in each color</b>Every color needs exactly one cat.</li>
+      <li><span class="rule-tag">Rule 2</span><b>One cat per row and column</b>A cat takes its whole row and column. No sharing!</li>
+      <li><span class="rule-tag">Rule 3</span><b>Cats don’t touch</b>Not even corner to corner.</li>
+      <li><span class="rule-tag">Rule 4</span><b>Look after your hearts</b>A wrong cat costs a heart, so think before you tap.</li>
+    </ol>
+    <p class="tip">🐾 <b>Tip:</b> switch to <b>Paw</b> mode (or press and hold a square) to mark spots where a cat <i>can’t</i> go.</p>
+    <form method="dialog"><button class="big-btn">Let’s play!</button></form>
+  </dialog>
+
+  <!-- Collection -->
+  <dialog id="collectionDialog" class="sheet">
+    <h2>Cat Collection</h2>
+    <p class="lead" id="collectionLead"></p>
+    <div class="collection" id="collectionGrid"></div>
+    <form method="dialog"><button class="big-btn">Done</button></form>
+  </dialog>
+
+  <!-- Settings -->
+  <dialog id="settingsDialog" class="sheet">
+    <h2>Settings</h2>
+    <label class="switch-row"><span><b>Relaxed mode</b><small>No hearts, no pressure</small></span>
+      <input type="checkbox" id="setRelaxed"><i></i></label>
+    <label class="switch-row"><span><b>Auto paw marks</b><small>Mark spots a new cat rules out</small></span>
+      <input type="checkbox" id="setAutoPaw"><i></i></label>
+    <label class="switch-row"><span><b>Sounds</b><small>Meows and pops</small></span>
+      <input type="checkbox" id="setSound"><i></i></label>
+    <form method="dialog"><button class="big-btn">Done</button></form>
+  </dialog>
+
+  <!-- Win -->
+  <dialog id="winDialog" class="sheet center">
+    <canvas id="confetti" aria-hidden="true"></canvas>
+    <div class="win-cat" id="winCat"></div>
+    <h2 id="winTitle">You did it!</h2>
+    <p class="lead" id="winText"></p>
+    <div class="unlock" id="unlockBox" hidden>
+      <div class="unlock-cat" id="unlockCat"></div>
+      <p><b>New friend!</b> <span id="unlockName"></span> joined your collection.</p>
+    </div>
+    <button class="big-btn" id="nextBtn">Next level ➜</button>
+  </dialog>
+
+  <!-- Out of hearts -->
+  <dialog id="loseDialog" class="sheet center">
+    <div class="win-cat sleepy" id="loseCat"></div>
+    <h2>Oops! The cats got tangled</h2>
+    <p class="lead">That’s okay, every puzzle master starts again sometimes.</p>
+    <button class="big-btn" id="retryBtn">Try again</button>
+  </dialog>
+
+  <script src="js/generator.js"></script>
+  <script src="js/cats.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
