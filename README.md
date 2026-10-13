@@ -2,7 +2,7 @@
 
 A cozy, ad-free cat logic puzzle for kids (and grown-ups), made for phones and tablets.
 
-It's inspired by [meowdoku.org](https://www.meowdoku.org/), but the art, layout and code are all original. It's a single static web page with no ads, no tracking, no accounts and nothing to install.
+It's a single static web page with no ads, no tracking, no accounts and nothing to install.
 
 ![Cute Cat Sudoku on a phone](docs/screenshot.png)
 
