@@ -1,0 +1,26 @@
+# Data (keep it out of Git; back it up separately)
+data/raw/
+data/processed/
+*.gdb/
+*.lock
+
+# ArcGIS Pro
+.backups/
+Index/
+*.atbx.bak
+
+# Excel temp files
+~$*
+
+# Python
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+
+# Secrets and local settings
+.env
+.claude/settings.local.json
+
+# Windows
+Thumbs.db
+desktop.ini
